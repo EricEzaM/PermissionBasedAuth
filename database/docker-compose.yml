@@ -1,0 +1,26 @@
+version: "3"
+
+volumes:
+  permission_based_auth_postgres_data: {}
+
+services:
+  db:
+    image: postgres:11.1
+    restart: always
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - permission_based_auth_postgres_data:/var/lib/postgresql/data
+      # Docker will run all the scripts in docker-entrypoint-initdb.d upon start
+      - ./migration-scripts:/docker-entrypoint-initdb.d
+    # Log All queries run
+    command: ["postgres", "-c", "log_statement=all"]
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8080:8080"
