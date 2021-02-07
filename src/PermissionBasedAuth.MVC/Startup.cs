@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PermissionBasedAuth.MVC.Areas.Identity.Data;
 using PermissionBasedAuth.MVC.Data;
+using PermissionBasedAuth.MVC.Permission;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +53,8 @@ namespace PermissionBasedAuth.MVC
 			});
 
 			services.AddSingleton<IEmailSender, DummyEmailSender>();
+			services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+			services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 			services.AddControllersWithViews();
 			services.AddRazorPages();
