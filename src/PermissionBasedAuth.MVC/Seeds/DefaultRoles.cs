@@ -36,6 +36,27 @@ namespace PermissionBasedAuth.MVC.Seeds
 			if (admin == null)
 			{
 				await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
+
+				admin = await roleManager.FindByNameAsync(Roles.Admin.ToString());
+				await roleManager.AddClaimAsync(basic, new Claim("Permission", Permissions.Test.Basic));
+			}
+
+			var manager = await roleManager.FindByNameAsync(Roles.Manager.ToString());
+			if (manager == null)
+			{
+				await roleManager.CreateAsync(new IdentityRole(Roles.Manager.ToString()));
+
+				manager = await roleManager.FindByNameAsync(Roles.Manager.ToString());
+				await roleManager.AddClaimAsync(basic, new Claim("Permission", Permissions.Test.Basic));
+			}
+
+			var contractor = await roleManager.FindByNameAsync(Roles.Contractor.ToString());
+			if (contractor == null)
+			{
+				await roleManager.CreateAsync(new IdentityRole(Roles.Contractor.ToString()));
+
+				contractor = await roleManager.FindByNameAsync(Roles.Contractor.ToString());
+				await roleManager.AddClaimAsync(basic, new Claim("Permission", Permissions.Test.Basic));
 			}
 		}
 	}

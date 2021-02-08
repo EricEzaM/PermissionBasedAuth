@@ -9,6 +9,8 @@ namespace PermissionBasedAuth.MVC.Permission
 	{
 		SuperAdmin,
 		Admin,
-		Basic
+		Basic,
+		Manager,
+		Contractor
 	}
 }
