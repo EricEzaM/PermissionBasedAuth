@@ -14,8 +14,8 @@ namespace PermissionBasedAuth.MVC.Seeds
 		{
 			var defaultUser = new PermissionAuthUser
 			{
-				UserName = "basic@fakeemail123.com",
-				Email = "basic@fakeemail123.com",
+				UserName = "basic@email.com",
+				Email = "basic@email.com",
 				EmailConfirmed = true,
 			};
 
@@ -24,7 +24,7 @@ namespace PermissionBasedAuth.MVC.Seeds
 				var user = await userManager.FindByEmailAsync(defaultUser.Email);
 				if (user == null)
 				{
-					await userManager.CreateAsync(defaultUser, "Pa$$word132");
+					await userManager.CreateAsync(defaultUser, "Password1!");
 					await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
 				}
 			}
@@ -34,8 +34,8 @@ namespace PermissionBasedAuth.MVC.Seeds
 		{
 			var defaultUser = new PermissionAuthUser
 			{
-				UserName = "superadmin@fakeemail123.com",
-				Email = "superadmin@fakeemail123.com",
+				UserName = "super@email.com",
+				Email = "super@email.com",
 				EmailConfirmed = true
 			};
 
@@ -43,7 +43,7 @@ namespace PermissionBasedAuth.MVC.Seeds
 			{
 				if (await userManager.FindByEmailAsync(defaultUser.Email) == null)
 				{
-					await userManager.CreateAsync(defaultUser, "Pa$$word132");
+					await userManager.CreateAsync(defaultUser, "Password1!");
 					await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
 					await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
 					await userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
