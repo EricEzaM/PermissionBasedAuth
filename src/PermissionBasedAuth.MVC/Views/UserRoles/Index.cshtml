@@ -1,0 +1,44 @@
+﻿@model UserRolesViewModel
+
+<h3>Roles for @Model.User.UserName</h3>
+
+<form method="post" asp-controller="UserRoles" asp-action="Update" asp-route-userId="@Model.User.Id">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Role
+                </th>
+                <th>
+                    Active Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.UserRoles.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="@Model.UserRoles[i].RoleName" type="hidden" />
+                        @Model.UserRoles[i].RoleName
+                    </td>
+                    <td>
+                        <input asp-for="@Model.UserRoles[i].Active"/>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <button type="submit" class="btn btn-primary">
+            Save
+        </button>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mt-2 p-1 alert-success border rounded">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+    </div>
+</form>

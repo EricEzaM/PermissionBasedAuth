@@ -1,0 +1,46 @@
+﻿@using PermissionBasedAuth.MVC.Areas.Identity.Data; 
+@model IEnumerable<PermissionAuthUser>
+
+<h3>User List</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                User
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    <div>
+                        <div>@user.UserName</div>
+                        <small>@user.Id</small>
+                    </div>
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="actionsDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="actionsDropdownButton">
+                            <a class="dropdown-item" asp-controller="UserRoles" asp-action="Index" asp-route-userId="@user.Id">Manage Roles</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
