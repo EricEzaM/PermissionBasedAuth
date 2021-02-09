@@ -2,7 +2,7 @@
 
 <h3>Roles for @Model.User.UserName</h3>
 
-<form method="post" asp-controller="UserRoles" asp-action="Update" asp-route-userId="@Model.User.Id">
+<form method="post" asp-controller="Users" asp-action="UserRoles" asp-route-userId="@Model.User.Id">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -23,7 +23,7 @@
                         @Model.UserRoles[i].RoleName
                     </td>
                     <td>
-                        <input asp-for="@Model.UserRoles[i].Active"/>
+                        <input asp-for="@Model.UserRoles[i].Active" />
                     </td>
                 </tr>
             }

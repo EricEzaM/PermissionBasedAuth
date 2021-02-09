@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace PermissionBasedAuth.MVC.Controllers
 {
+	[Route("roles")]
 	public class RolesController : Controller
 	{
 		private readonly RoleManager<IdentityRole> _roleManager;
@@ -20,13 +21,14 @@ namespace PermissionBasedAuth.MVC.Controllers
 			_roleManager = roleManager;
 		}
 
-		public async Task<IActionResult> Index()
+		[HttpGet]
+		public IActionResult Roles()
 		{
 			return View(_roleManager.Roles.ToList());
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> Update(string roleId)
+		[HttpGet("{roleId}")]
+		public async Task<IActionResult> RolePermissions(string roleId)
 		{
 			var role = await _roleManager.FindByIdAsync(roleId);
 			var roleClaimValues = (await _roleManager.GetClaimsAsync(role))
@@ -51,8 +53,8 @@ namespace PermissionBasedAuth.MVC.Controllers
 			return View(vm);
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> Update(string roleId, RolePermissionsViewModel model)
+		[HttpPost("{roleId}")]
+		public async Task<IActionResult> RolePermissions(string roleId, RolePermissionsViewModel model)
 		{
 			var role = await _roleManager.FindByIdAsync(roleId);
 
@@ -78,13 +80,13 @@ namespace PermissionBasedAuth.MVC.Controllers
 			}
 
 			TempData["SuccessMessage"] = "Permissions updated.";
-			return RedirectToAction(nameof(Update), new { roleId });
+			return RedirectToAction(nameof(RolePermissions), new { roleId });
 		}
 
 		[HttpPost]
 		public IActionResult Delete(string roleId)
 		{
-			return RedirectToAction(nameof(Index));
+			return RedirectToAction(nameof(Roles));
 		}
 	}
 }
