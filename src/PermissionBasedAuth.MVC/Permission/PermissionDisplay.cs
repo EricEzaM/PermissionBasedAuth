@@ -12,22 +12,45 @@ namespace PermissionBasedAuth.MVC.Permission
 	/// </summary>
 	public class PermissionDisplay
 	{
-		public PermissionDisplay(string groupName, string name, string description)
+		public PermissionDisplay(string groupName, string name, string value, string description)
 		{
 			GroupName = groupName;
 			Name = name;
+			Value = value;
 			Description = description;
 		}
 
 		public string GroupName { get; }
 		public string Name { get; }
+		public string Value { get; }
 		public string Description { get; }
 
 		public static List<PermissionDisplay> GetPermissionDisplays(Type permissionClass)
 		{
-			var result = new List<PermissionDisplay>();
+			var results = new List<PermissionDisplay>();
+			GetNestedPermissions(permissionClass, ref results);
+			return results;
+		}
 
-			FieldInfo[] fields = permissionClass.GetFields(BindingFlags.Public | BindingFlags.Static);
+		private static List<PermissionDisplay> GetNestedPermissions(Type type, ref List<PermissionDisplay> results)
+		{
+			// Get any permissions which reside in the provided class.
+			results.AddRange(GetPermissionsInClass(type));
+
+			// And check nested classes too.
+			var types = type.GetNestedTypes(BindingFlags.Public | BindingFlags.Static);
+			foreach (var nestedType in types)
+			{
+				GetNestedPermissions(nestedType, ref results);
+			}
+
+			return results;
+		}
+
+		private static List<PermissionDisplay> GetPermissionsInClass(Type type)
+		{
+			var results = new List<PermissionDisplay>();
+			var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
 			foreach (var field in fields)
 			{
 				// Don't display obsolete permissions.
@@ -43,10 +66,10 @@ namespace PermissionBasedAuth.MVC.Permission
 					continue;
 				}
 
-				result.Add(new PermissionDisplay(displayAttribute.GroupName, displayAttribute.Name, displayAttribute.Description));
+				results.Add(new PermissionDisplay(displayAttribute.GroupName, displayAttribute.Name, field.GetValue(null).ToString(), displayAttribute.Description));
 			}
 
-			return result;
+			return results;
 		}
 	}
 }
