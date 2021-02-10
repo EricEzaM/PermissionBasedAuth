@@ -35,7 +35,7 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpGet("{userId}/roles")]
-		[HasPermission(Permissions.Users.Read)]
+		[HasPermission(Permissions.Users.Edit)]
 		public async Task<IActionResult> UserRoles(string userId)
 		{
 			var user = await _userManager.FindByIdAsync(userId);
