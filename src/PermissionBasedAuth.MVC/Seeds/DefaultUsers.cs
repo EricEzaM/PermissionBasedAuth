@@ -10,7 +10,7 @@ namespace PermissionBasedAuth.MVC.Seeds
 {
 	public class DefaultUsers
 	{
-		public static async Task SeedBasicUser(UserManager<PermissionAuthUser> userManager, RoleManager<IdentityRole> roleManager)
+		public static async Task SeedBasicUser(UserManager<PermissionAuthUser> userManager)
 		{
 			var defaultUser = new PermissionAuthUser
 			{
@@ -30,7 +30,7 @@ namespace PermissionBasedAuth.MVC.Seeds
 			}
 		}
 
-		public static async Task SeedSuperAdminUser(UserManager<PermissionAuthUser> userManager, RoleManager<IdentityRole> roleManager)
+		public static async Task SeedSuperAdminUser(UserManager<PermissionAuthUser> userManager)
 		{
 			var defaultUser = new PermissionAuthUser
 			{
@@ -47,6 +47,27 @@ namespace PermissionBasedAuth.MVC.Seeds
 					await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
 					await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
 					await userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
+				}
+			}
+		}
+
+		public static async Task SeedManagerUser(UserManager<PermissionAuthUser> userManager)
+		{
+			var defaultUser = new PermissionAuthUser
+			{
+				UserName = "manager@email.com",
+				Email = "manager@email.com",
+				EmailConfirmed = true,
+			};
+
+			if (userManager.Users.All(u => u.UserName != defaultUser.UserName))
+			{
+				var user = await userManager.FindByEmailAsync(defaultUser.Email);
+				if (user == null)
+				{
+					await userManager.CreateAsync(defaultUser, "Password1!");
+					await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
+					await userManager.AddToRoleAsync(defaultUser, Roles.Manager.ToString());
 				}
 			}
 		}

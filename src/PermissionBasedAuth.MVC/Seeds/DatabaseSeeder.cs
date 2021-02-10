@@ -25,8 +25,9 @@ namespace PermissionBasedAuth.MVC.Seeds
 				var context = services.GetRequiredService<PermissionAuthDbContext>();
 
 				await DefaultRoles.SeedAsync(roleManager);
-				await DefaultUsers.SeedBasicUser(userManager, roleManager);
-				await DefaultUsers.SeedSuperAdminUser(userManager, roleManager);
+				await DefaultUsers.SeedBasicUser(userManager);
+				await DefaultUsers.SeedSuperAdminUser(userManager);
+				await DefaultUsers.SeedManagerUser(userManager);
 
 				logger.LogInformation("Finished seeding.");
 			}
