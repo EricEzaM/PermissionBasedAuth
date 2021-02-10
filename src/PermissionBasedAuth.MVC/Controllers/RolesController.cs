@@ -83,9 +83,18 @@ namespace PermissionBasedAuth.MVC.Controllers
 			return RedirectToAction(nameof(RolePermissions), new { roleId });
 		}
 
-		[HttpPost]
-		public IActionResult Delete(string roleId)
+		[HttpPost("create")]
+		public async Task<IActionResult> Create(CreateRoleViewModel model)
 		{
+			await _roleManager.CreateAsync(new IdentityRole(model.Name));
+			return RedirectToAction(nameof(Roles));
+		}
+
+		[HttpPost("{roleId}/delete")]
+		public async Task<IActionResult> Delete(string roleId)
+		{
+			var role = await _roleManager.FindByIdAsync(roleId);
+			await _roleManager.DeleteAsync(role);
 			return RedirectToAction(nameof(Roles));
 		}
 	}

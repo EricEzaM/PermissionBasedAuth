@@ -3,6 +3,8 @@
 
 <h3>Roles</h3>
 
+<partial name="_CreateRole" model="new CreateRoleViewModel()"/>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -22,14 +24,16 @@
                     @role.Name
                 </td>
                 <td>
-                    <div class="btn-group">
-                        <a asp-controller="Roles" asp-action="RolePermissions" asp-route-roleId="@role.Id" class="btn btn-primary">
-                            Edit
-                        </a>
-                        <button asp-controller="Roles" asp-action="Delete" asp-route-roleId="@role.Id" class="btn btn-danger">
-                            Delete
-                        </button>
-                    </div>
+                    <form asp-controller="Roles" asp-action="Delete" asp-route-roleId="@role.Id">
+                        <div class="btn-group">
+                                <a asp-controller="Roles" asp-action="RolePermissions" asp-route-roleId="@role.Id" class="btn btn-primary">
+                                    Edit
+                                </a>
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                        </div>
+                    </form>
                 </td>
             </tr>
         }
