@@ -19,8 +19,14 @@ namespace PermissionBasedAuth.MVC.Seeds
 				await roleManager.CreateAsync(new IdentityRole(Roles.SuperAdmin.ToString()));
 
 				superAdmin = await roleManager.FindByNameAsync(Roles.SuperAdmin.ToString());
-				await roleManager.AddClaimAsync(superAdmin, new Claim("Permission", Permissions.Test.Basic));
-				await roleManager.AddClaimAsync(superAdmin, new Claim("Permission", Permissions.Test.SuperAdminOnly));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Create));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Read));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Delete));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Edit.Metadata));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Edit.Permissions));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Users.Create));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Users.Read));
+				await roleManager.AddClaimAsync(superAdmin, new Claim(CustomClaimTypes.Permission, Permissions.Users.Edit));
 			}
 
 			var basic = await roleManager.FindByNameAsync(Roles.Basic.ToString());
@@ -28,8 +34,7 @@ namespace PermissionBasedAuth.MVC.Seeds
 			{
 				await roleManager.CreateAsync(new IdentityRole(Roles.Basic.ToString()));
 
-				basic = await roleManager.FindByNameAsync(Roles.Basic.ToString());
-				await roleManager.AddClaimAsync(basic, new Claim("Permission", Permissions.Test.Basic));
+				//basic = await roleManager.FindByNameAsync(Roles.Basic.ToString());
 			}
 
 			var admin = await roleManager.FindByNameAsync(Roles.Admin.ToString());
@@ -38,7 +43,14 @@ namespace PermissionBasedAuth.MVC.Seeds
 				await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
 
 				admin = await roleManager.FindByNameAsync(Roles.Admin.ToString());
-				await roleManager.AddClaimAsync(basic, new Claim("Permission", Permissions.Test.Basic));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Create));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Read));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Delete));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Edit.Metadata));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Roles.Edit.Permissions));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Users.Create));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Users.Read));
+				await roleManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Permission, Permissions.Users.Edit));
 			}
 
 			var manager = await roleManager.FindByNameAsync(Roles.Manager.ToString());
@@ -46,8 +58,7 @@ namespace PermissionBasedAuth.MVC.Seeds
 			{
 				await roleManager.CreateAsync(new IdentityRole(Roles.Manager.ToString()));
 
-				manager = await roleManager.FindByNameAsync(Roles.Manager.ToString());
-				await roleManager.AddClaimAsync(basic, new Claim("Permission", Permissions.Test.Basic));
+				//manager = await roleManager.FindByNameAsync(Roles.Manager.ToString());
 			}
 
 			var contractor = await roleManager.FindByNameAsync(Roles.Contractor.ToString());
@@ -55,8 +66,7 @@ namespace PermissionBasedAuth.MVC.Seeds
 			{
 				await roleManager.CreateAsync(new IdentityRole(Roles.Contractor.ToString()));
 
-				contractor = await roleManager.FindByNameAsync(Roles.Contractor.ToString());
-				await roleManager.AddClaimAsync(basic, new Claim("Permission", Permissions.Test.Basic));
+				//contractor = await roleManager.FindByNameAsync(Roles.Contractor.ToString());
 			}
 		}
 	}

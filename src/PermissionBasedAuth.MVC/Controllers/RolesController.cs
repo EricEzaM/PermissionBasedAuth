@@ -22,17 +22,19 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpGet]
+		[HasPermission(Permissions.Roles.Read)]
 		public IActionResult Roles()
 		{
 			return View(_roleManager.Roles.ToList());
 		}
 
 		[HttpGet("{roleId}")]
+		[HasPermission(Permissions.Roles.Edit.Permissions)]
 		public async Task<IActionResult> RolePermissions(string roleId)
 		{
 			var role = await _roleManager.FindByIdAsync(roleId);
 			var roleClaimValues = (await _roleManager.GetClaimsAsync(role))
-				.Where(c => c.Type == "Permission")
+				.Where(c => c.Type == CustomClaimTypes.Permission)
 				.Select(c => c.Value);
 
 			RolePermissionsViewModel vm = new()
@@ -54,6 +56,7 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpPost("{roleId}")]
+		[HasPermission(Permissions.Roles.Edit.Permissions)]
 		public async Task<IActionResult> RolePermissions(string roleId, RolePermissionsViewModel model)
 		{
 			var role = await _roleManager.FindByIdAsync(roleId);
@@ -84,6 +87,7 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpPost("create")]
+		[HasPermission(Permissions.Roles.Create)]
 		public async Task<IActionResult> Create(CreateRoleViewModel model)
 		{
 			await _roleManager.CreateAsync(new IdentityRole(model.Name));
@@ -91,6 +95,7 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpPost("{roleId}/delete")]
+		[HasPermission(Permissions.Roles.Delete)]
 		public async Task<IActionResult> Delete(string roleId)
 		{
 			var role = await _roleManager.FindByIdAsync(roleId);

@@ -11,19 +11,25 @@ namespace PermissionBasedAuth.MVC.Permission
 	/// </summary>
 	public static class Permissions
 	{
-		public static class Test
+		public static class Users
 		{
-			[Display(GroupName = "Test", Name = "Test One", Description = "First Test Permission")]
-			public const string Basic = "Permissions.Test.Basic";
-			[Display(GroupName = "Test", Name = "Test Two", Description = "Second Test Permission")]
-			public const string SuperAdminOnly = "Permissions.Test.SuperAdminOnly";
+			[Display(GroupName = "Users", Name = "Create", Description = "Create new users.")]
+			public const string Create = "Permissions.Users.Create";
+			[Display(GroupName = "Users", Name = "Read", Description = "Read user data.")]
+			public const string Read = "Permissions.Users.Read";
+			[Display(GroupName = "Users", Name = "Edit", Description = "Edit user data.")]
+			public const string Edit = "Permissions.Users.Edit";
 		}
 
 		public static class Roles
 		{
 			[Display(GroupName = "Roles", Name = "Create", Description = "Create new roles.")]
 			public const string Create = "Permissions.Roles.Create";
-			
+			[Display(GroupName = "Roles", Name = "Read", Description = "Read role data.")]
+			public const string Read = "Permissions.Roles.Read";
+			[Display(GroupName = "Roles", Name = "Delete", Description = "Delete roles.")]
+			public const string Delete = "Permissions.Roles.Delete";
+
 			public static class Edit
 			{
 				[Display(GroupName = "Roles", Name = "Edit Metadata", Description = "Edit role metdata.")]

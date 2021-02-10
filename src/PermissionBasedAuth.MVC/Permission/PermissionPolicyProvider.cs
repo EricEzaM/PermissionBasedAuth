@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using PermissionBasedAuth.MVC.Areas.Identity.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace PermissionBasedAuth.MVC.Permission
 
 		public async Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
 		{
-			if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
+			if (policyName.StartsWith(CustomClaimTypes.Permission, StringComparison.OrdinalIgnoreCase))
 			{
 				return new AuthorizationPolicyBuilder()
 					.AddRequirements(new PermissionRequirement(policyName))

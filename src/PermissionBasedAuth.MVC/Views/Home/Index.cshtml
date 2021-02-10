@@ -1,7 +1,21 @@
-﻿@{
+﻿@using PermissionBasedAuth.MVC.Permission;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthService
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+
+    @if ((await AuthService.AuthorizeAsync(User, Permissions.Users.Read)).Succeeded)
+    {
+        <a asp-controller="Users" asp-action="Users" class="btn btn-outline-info">User Management</a>
+    }
+    @if ((await AuthService.AuthorizeAsync(User, Permissions.Roles.Read)).Succeeded)
+    {
+        <a asp-controller="Roles" asp-action="Roles" class="btn btn-outline-dark">Role Management</a>
+    }
+
 </div>

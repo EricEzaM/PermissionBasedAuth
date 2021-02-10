@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace PermissionBasedAuth.MVC.Controllers
 {
-	[HasPermission(Permissions.Test.SuperAdminOnly)]
 	[Route("users")]
 	public class UsersController : Controller
 	{
@@ -24,6 +23,7 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpGet]
+		[HasPermission(Permissions.Users.Read)]
 		public IActionResult Users()
 		{
 			var allUsers = _userManager
@@ -35,6 +35,7 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpGet("{userId}/roles")]
+		[HasPermission(Permissions.Users.Read)]
 		public async Task<IActionResult> UserRoles(string userId)
 		{
 			var user = await _userManager.FindByIdAsync(userId);
@@ -58,6 +59,7 @@ namespace PermissionBasedAuth.MVC.Controllers
 		}
 
 		[HttpPost("{userId}/roles")]
+		[HasPermission(Permissions.Users.Edit)]
 		public async Task<IActionResult> UserRoles(string userId, UserRolesViewModel model)
 		{
 			var user = await _userManager.FindByIdAsync(userId);
